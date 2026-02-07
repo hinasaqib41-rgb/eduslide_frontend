@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Update this URL to your HuggingFace Docker backend URL
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://huggingface.co/spaces/Hinasaqib41/eduslide-backend';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:7860';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

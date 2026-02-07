@@ -1,41 +1,25 @@
 import { useState } from 'react';
 import { generateFromTopic } from '../api';
-import './Generator.css';
+import './Generator.css'; // Ensure your styles are imported
 
-function TopicGenerator() {
+const TopicGenerator = () => {
   const [topic, setTopic] = useState('');
   const [numSlides, setNumSlides] = useState(10);
+  const [slides, setSlides] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleGenerate = async (e) => {
     e.preventDefault();
+    if (!topic.trim()) return alert("Please enter a topic");
     
-    if (!topic.trim()) {
-      setError('Please enter a topic');
-      return;
-    }
-
     setLoading(true);
-    setError('');
-
     try {
-      const blob = await generateFromTopic(topic, numSlides);
-      
-      // Create download link
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${topic.replace(/\s+/g, '_')}_slides.pptx`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-      
-      setTopic('');
+      // The API now returns a JSON array: [{title, content, example, visual_suggestion}, ...]
+      const data = await generateFromTopic(topic, numSlides);
+      setSlides(data);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to generate slides. Please try again.');
-      console.error('Error:', err);
+      console.error("Topic Generation failed:", err);
+      alert("Failed to generate slides. Check your API connection.");
     } finally {
       setLoading(false);
     }
@@ -43,85 +27,59 @@ function TopicGenerator() {
 
   return (
     <div className="generator-container">
-      <div className="generator-card">
-        <div className="card-header">
-          <h2>Generate from Topic</h2>
-          <p>Enter any educational topic and get AI-generated slides</p>
+      <form onSubmit={handleGenerate} className="input-section">
+        <div className="form-group">
+          <label>What topic do you want to teach?</label>
+          <input 
+            type="text" 
+            value={topic} 
+            onChange={(e) => setTopic(e.target.value)} 
+            placeholder="e.g., Photosynthesis, Civil War, Quantum Physics..."
+            className="topic-input"
+          />
         </div>
-
-        <form onSubmit={handleSubmit} className="generator-form">
-          <div className="form-group">
-            <label htmlFor="topic">Topic or Subject</label>
-            <input
-              type="text"
-              id="topic"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              placeholder="e.g., Photosynthesis, World War II, Python Programming"
-              className="form-input"
-              disabled={loading}
-            />
-            <span className="form-hint">Be specific for better results</span>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="numSlides">Number of Slides</label>
-            <input
-              type="number"
-              id="numSlides"
-              value={numSlides}
-              onChange={(e) => setNumSlides(parseInt(e.target.value))}
-              min="5"
-              max="50"
-              className="form-input"
-              disabled={loading}
-            />
-            <span className="form-hint">Minimum 5, maximum 50 slides</span>
-          </div>
-
-          {error && (
-            <div className="error-message">
-              <span className="error-icon">⚠️</span>
-              {error}
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="submit-button"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <span className="spinner"></span>
-                Generating Slides...
-              </>
-            ) : (
-              <>
-                <span>✨</span>
-                Generate Presentation
-              </>
-            )}
+        
+        <div className="form-controls">
+          <select value={numSlides} onChange={(e) => setNumSlides(e.target.value)}>
+            <option value={5}>5 Slides</option>
+            <option value={10}>10 Slides</option>
+            <option value={15}>15 Slides</option>
+          </select>
+          
+          <button type="submit" disabled={loading} className="generate-btn">
+            {loading ? 'AI is Planning Lessons...' : 'Generate Educational Slides'}
           </button>
-        </form>
-
-        <div className="features">
-          <div className="feature">
-            <span className="feature-icon">🎨</span>
-            <span>Beautiful Design</span>
-          </div>
-          <div className="feature">
-            <span className="feature-icon">🤖</span>
-            <span>AI-Powered</span>
-          </div>
-          <div className="feature">
-            <span className="feature-icon">⚡</span>
-            <span>Fast Generation</span>
-          </div>
         </div>
+      </form>
+
+      <div className="slides-results">
+        {slides.length > 0 && <h2>Generated Presentation Plan</h2>}
+        {slides.map((slide, index) => (
+          <div key={index} className="slide-card">
+            <div className="slide-number">Slide {index + 1}</div>
+            <h3>{slide.title}</h3>
+            
+            <ul className="slide-bullet-points">
+              {slide.content.map((point, i) => (
+                <li key={i}>{point}</li>
+              ))}
+            </ul>
+
+            <div className="example-section">
+              <strong>💡 Real-world Example:</strong>
+              <p>{slide.example}</p>
+            </div>
+
+            {slide.visual_suggestion && (
+              <div className="visual-hint">
+                <strong>🎨 Visual Suggestion:</strong> {slide.visual_suggestion}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default TopicGenerator;

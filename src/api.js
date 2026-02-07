@@ -17,7 +17,7 @@ export const generateFromTopic = async (topic, numSlides = 10) => {
   formData.append('topic', topic);
   formData.append('num_slides', numSlides);
   
-  const response = await api.post('/generate-from-topic', formData, {
+  const response = await api.post('/api/generate/topic', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -32,7 +32,7 @@ export const generateFromPdf = async (file, slidesPerChapter = 10) => {
   formData.append('file', file);
   formData.append('slides_per_chapter', slidesPerChapter);
   
-  const response = await api.post('/generate-from-pdf', formData, {
+  const response = await api.post('/api/generate/pdf', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -47,7 +47,7 @@ export const generateFromImage = async (file, numSlides = 10) => {
   formData.append('file', file);
   formData.append('num_slides', numSlides);
   
-  const response = await api.post('/generate-from-image', formData, {
+  const response = await api.post('/api/generate/image', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hinasaqib41-eduslide-backend.hf.space';
+// Ensure there is no trailing slash here
+const API_BASE_URL = 'https://hinasaqib41-eduslide-backend.hf.space';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -13,6 +14,7 @@ export const generateFromTopic = async (topic, numSlides = 10) => {
   formData.append('num_slides', numSlides);
   formData.append('education_level', 'High School');
 
+  // Path must match @app.post in Python
   const response = await api.post('/api/generate/topic', formData);
   return response.data;
 };

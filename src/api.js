@@ -40,22 +40,16 @@ export const generateFromImage = async (file, numSlides = 10) => {
 export default api;
 
 export const downloadPptx = async (slides, topic) => {
-  try {
-    const response = await api.post('/api/export/pptx', 
-      { slides, topic }, 
-      { responseType: 'blob' } // CRITICAL: Tells Axios this is a file
-    );
-    
-    // Create a hidden link to trigger the browser download
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `${topic.replace(/\s+/g, '_')}.pptx`);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  } catch (error) {
-    console.error("Download failed:", error);
-    alert("Could not download PowerPoint. Check backend logs.");
-  }
+  const response = await api.post('/api/export/pptx', { slides, topic }, {
+    responseType: 'blob', // MUST HAVE THIS
+  });
+  
+  // Create a link in the browser memory and "click" it for the user
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', `${topic}.pptx`);
+  document.body.appendChild(link);
+  link.click();
+  link.remove(); // Clean up
 };

@@ -28,6 +28,16 @@ export const generateFromPdf = async (file, numSlides = 10) => {
   return response.data;
 };
 
+export const generateFromImage = async (file, numSlides = 10) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('num_slides', numSlides);
+
+  const response = await api.post('/api/generate/image', formData);
+  return response.data;
+};
+
+export default api;
 
 export const downloadPptx = async (slides, topic) => {
   try {
@@ -49,14 +59,3 @@ export const downloadPptx = async (slides, topic) => {
     alert("Could not download PowerPoint. Check backend logs.");
   }
 };
-
-export const generateFromImage = async (file, numSlides = 10) => {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('num_slides', numSlides);
-
-  const response = await api.post('/api/generate/image', formData);
-  return response.data;
-};
-
-export default api;

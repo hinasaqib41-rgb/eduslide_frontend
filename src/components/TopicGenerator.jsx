@@ -83,3 +83,34 @@ const TopicGenerator = () => {
 };
 
 export default TopicGenerator;
+
+import { downloadPptx } from '../api'; // Adjust path if needed
+
+// ... inside your component
+const [isDownloading, setIsDownloading] = useState(false);
+
+const handleDownload = async () => {
+  setIsDownloading(true);
+  await downloadPptx(slides, topic);
+  setIsDownloading(false);
+};
+
+return (
+  <div>
+    {/* Your Generate Input Section */}
+    
+    {slides.length > 0 && (
+      <div style={{ textAlign: 'center', margin: '20px' }}>
+        <button 
+          onClick={handleDownload} 
+          disabled={isDownloading}
+          className="download-button"
+        >
+          {isDownloading ? "Creating File..." : "📥 Download PowerPoint"}
+        </button>
+      </div>
+    )}
+
+    {/* Your Slide Cards Section */}
+  </div>
+);

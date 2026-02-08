@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { downloadPptx } from '../api';
+
 // Ensure there is no trailing slash here
 const API_BASE_URL = 'https://hinasaqib41-eduslide-backend.hf.space';
 
@@ -37,19 +37,25 @@ export const generateFromImage = async (file, numSlides = 10) => {
   return response.data;
 };
 
-export default api;
-
 export const downloadPptx = async (slides, topic) => {
-  const response = await api.post('/api/export/pptx', { slides, topic }, {
-    responseType: 'blob', // MUST HAVE THIS
-  });
-  
-  // Create a link in the browser memory and "click" it for the user
-  const url = window.URL.createObjectURL(new Blob([response.data]));
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', `${topic}.pptx`);
-  document.body.appendChild(link);
-  link.click();
-  link.remove(); // Clean up
+  try {
+    const response = await api.post('/api/export/pptx', { slides, topic }, {
+      responseType: 'blob', // Important for binary data
+    });
+    
+    // Create a link in the browser memory and "click" it for the user
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${topic.replace(/\s+/g, '_')}.pptx`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove(); // Clean up
+    window.URL.revokeObjectURL(url); // Free up memory
+  } catch (error) {
+    console.error("Download Error:", error);
+    throw error;
+  }
 };
+
+export default api;

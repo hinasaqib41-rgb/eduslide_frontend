@@ -4,15 +4,23 @@
   margin: 0 auto;
 }
 
-.upload-box {
-  margin-bottom: 30px;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
+.input-section {
+  background: #fdfdfd;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 40px;
 }
 
-/* Slide Card Styling */
+.topic-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
 .slide-card {
   background: #ffffff;
   border: 1px solid #e0e0e0;
@@ -20,28 +28,16 @@
   padding: 24px;
   margin-bottom: 20px;
   text-align: left;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease;
-}
-
-.slide-card:hover {
-  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .slide-card h3 {
   color: #2c3e50;
   border-bottom: 2px solid #3498db;
   padding-bottom: 8px;
-  margin-top: 0;
 }
 
-.slide-card ul {
-  padding-left: 20px;
-  color: #34495e;
-}
-
-/* Decorative Example Box */
-.example-box {
+.example-section {
   background: #f8f9fa;
   border-left: 4px solid #2ecc71;
   padding: 12px;
@@ -49,58 +45,40 @@
   border-radius: 4px;
 }
 
-.example-box strong {
-  color: #27ae60;
-  display: block;
-  margin-bottom: 5px;
-}
-
-/* Visual Suggestion Text */
-.visual-suggestion {
+.visual-hint {
   font-size: 0.85rem;
   color: #7f8c8d;
-  margin-top: 15px;
+  margin-top: 10px;
   font-style: italic;
-  display: block;
 }
 
-/* Download Button Styling */
 .download-container {
   display: flex;
   justify-content: center;
-  width: 100%;
   margin: 30px 0;
 }
 
 .download-button {
-  background-color: #2980b9;
+  background-color: #27ae60;
   color: white;
-  padding: 14px 28px;
+  padding: 15px 30px;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 4px 6px rgba(41, 128, 185, 0.2);
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
 }
 
 .download-button:hover {
-  background-color: #3498db;
-  box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
-  transform: translateY(-1px);
-}
-
-.download-button:active {
-  transform: translateY(0);
+  background-color: #2ecc71;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
 }
 
 .download-button:disabled {
   background-color: #bdc3c7;
   cursor: not-allowed;
   transform: none;
-  box-shadow: none;
 }

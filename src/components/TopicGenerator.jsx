@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import { generateFromTopic } from '../api';
-import './Generator.css'; // Ensure your styles are imported
+import React, { useState } from 'react';
+import { generateFromTopic, downloadPptx } from '../api';
+import './Generator.css'; 
 
 const TopicGenerator = () => {
   const [topic, setTopic] = useState('');
   const [numSlides, setNumSlides] = useState(10);
   const [slides, setSlides] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleGenerate = async (e) => {
     e.preventDefault();
@@ -14,7 +15,6 @@ const TopicGenerator = () => {
     
     setLoading(true);
     try {
-      // The API now returns a JSON array: [{title, content, example, visual_suggestion}, ...]
       const data = await generateFromTopic(topic, numSlides);
       setSlides(data);
     } catch (err) {
@@ -25,8 +25,21 @@ const TopicGenerator = () => {
     }
   };
 
+  const handleDownload = async () => {
+    if (slides.length === 0) return;
+    setIsDownloading(true);
+    try {
+      await downloadPptx(slides, topic);
+    } catch (err) {
+      alert("Could not download the file. Please try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <div className="generator-container">
+      {/* Input Section */}
       <form onSubmit={handleGenerate} className="input-section">
         <div className="form-group">
           <label>What topic do you want to teach?</label>
@@ -40,7 +53,7 @@ const TopicGenerator = () => {
         </div>
         
         <div className="form-controls">
-          <select value={numSlides} onChange={(e) => setNumSlides(e.target.value)}>
+          <select value={numSlides} onChange={(e) => setNumSlides(parseInt(e.target.value))}>
             <option value={5}>5 Slides</option>
             <option value={10}>10 Slides</option>
             <option value={15}>15 Slides</option>
@@ -52,6 +65,20 @@ const TopicGenerator = () => {
         </div>
       </form>
 
+      {/* Download Section - Only shows after slides are generated */}
+      {slides.length > 0 && (
+        <div className="download-container">
+          <button 
+            onClick={handleDownload} 
+            disabled={isDownloading}
+            className="download-button"
+          >
+            {isDownloading ? "Creating File..." : "📥 Download PowerPoint"}
+          </button>
+        </div>
+      )}
+
+      {/* Results Section */}
       <div className="slides-results">
         {slides.length > 0 && <h2>Generated Presentation Plan</h2>}
         {slides.map((slide, index) => (
@@ -60,7 +87,7 @@ const TopicGenerator = () => {
             <h3>{slide.title}</h3>
             
             <ul className="slide-bullet-points">
-              {slide.content.map((point, i) => (
+              {slide.content && slide.content.map((point, i) => (
                 <li key={i}>{point}</li>
               ))}
             </ul>
@@ -83,34 +110,3 @@ const TopicGenerator = () => {
 };
 
 export default TopicGenerator;
-
-import { downloadPptx } from '../api'; // Adjust path if needed
-
-// ... inside your component
-const [isDownloading, setIsDownloading] = useState(false);
-
-const handleDownload = async () => {
-  setIsDownloading(true);
-  await downloadPptx(slides, topic);
-  setIsDownloading(false);
-};
-
-return (
-  <div>
-    {/* Your Generate Input Section */}
-    
-    {slides.length > 0 && (
-      <div style={{ textAlign: 'center', margin: '20px' }}>
-        <button 
-          onClick={handleDownload} 
-          disabled={isDownloading}
-          className="download-button"
-        >
-          {isDownloading ? "Creating File..." : "📥 Download PowerPoint"}
-        </button>
-      </div>
-    )}
-
-    {/* Your Slide Cards Section */}
-  </div>
-);

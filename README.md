@@ -33,9 +33,9 @@ AI-Powered Educational Slide Generator - React Frontend
    cp .env.example .env
    ```
    
-   Edit `.env` and set your backend API URL:
+   backend API URL:
    ```
-   VITE_API_URL=https://your-username-eduslide-ai.hf.space
+   VITE_API_URL=https://hinasaqib41-eduslide-backend.hf.space
    ```
 
 4. **Start development server**
@@ -60,7 +60,7 @@ The production files will be in the `dist` folder.
 Update the API URL in `.env`:
 
 - **Local development**: `http://localhost:7860`
-- **HuggingFace Space**: `https://your-username-eduslide-ai.hf.space`
+- **HuggingFace Space**: `https://hinasaqib41-eduslide-backend.hf.space`
 
 ### API Endpoints
 
@@ -129,7 +129,7 @@ src/
 
 3. Set environment variable in Vercel dashboard:
    ```
-   VITE_API_URL=https://your-backend-url
+   VITE_API_URL=https://hinasaqib41-eduslide-backend.hf.space
    ```
 
 ### Deploy to Netlify
@@ -143,7 +143,7 @@ src/
 
 3. Set environment variable in Netlify:
    ```
-   VITE_API_URL=https://your-backend-url
+   VITE_API_URL=https://hinasaqib41-eduslide-backend.hf.space
    ```
 
 ## 🐛 Troubleshooting

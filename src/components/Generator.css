@@ -1,84 +1,95 @@
+/* Container for the whole page */
 .generator-container {
   padding: 20px;
   max-width: 1000px;
   margin: 0 auto;
 }
 
-.input-section {
-  background: #fdfdfd;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+/* The Beautiful Box for Inputs (Topic, PDF, and Image) */
+.input-section, .upload-card {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   margin-bottom: 40px;
+  text-align: center;
+  transition: transform 0.2s ease;
 }
 
-.topic-input {
+/* Grouping labels and inputs */
+.form-group {
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-group label {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 1.2rem;
+}
+
+/* Modern styling for the file selector */
+input[type="file"] {
+  background: #f8fafc;
+  border: 2px dashed #3498db;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
   width: 100%;
-  padding: 12px;
-  border: 2px solid #ddd;
+  max-width: 450px;
+  transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+  background: #f1f5f9;
+  border-color: #2980b9;
+}
+
+/* Controls (Select and Button) */
+.form-controls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+select {
+  padding: 10px 15px;
   border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: white;
   font-size: 1rem;
-  margin-bottom: 15px;
+}
+
+/* Existing Button and Card styles... */
+.generate-btn, .download-button {
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s;
+}
+
+.generate-btn {
+  background: #3498db;
+  color: white;
+}
+
+.generate-btn:hover {
+  background: #2980b9;
 }
 
 .slide-card {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+  background: white;
   border-radius: 12px;
-  padding: 24px;
+  padding: 25px;
   margin-bottom: 20px;
-  text-align: left;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.slide-card h3 {
-  color: #2c3e50;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 8px;
-}
-
-.example-section {
-  background: #f8f9fa;
-  border-left: 4px solid #2ecc71;
-  padding: 12px;
-  margin-top: 15px;
-  border-radius: 4px;
-}
-
-.visual-hint {
-  font-size: 0.85rem;
-  color: #7f8c8d;
-  margin-top: 10px;
-  font-style: italic;
-}
-
-.download-container {
-  display: flex;
-  justify-content: center;
-  margin: 30px 0;
-}
-
-.download-button {
-  background-color: #27ae60;
-  color: white;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
-}
-
-.download-button:hover {
-  background-color: #2ecc71;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
-}
-
-.download-button:disabled {
-  background-color: #bdc3c7;
-  cursor: not-allowed;
-  transform: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border: 1px solid #e0e0e0;
 }
